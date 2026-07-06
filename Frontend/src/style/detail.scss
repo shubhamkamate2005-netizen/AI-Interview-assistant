@@ -1,0 +1,722 @@
+// ── SCSS Variables ────────────────────────────────────────────────────────────
+$bg-page:        #0d1117;
+$bg-card:        #161b22;
+$bg-panel:       #1c2230;
+$bg-input:       #1e2535;
+$border-color:   #2a3348;
+$text-primary:   #e6edf3;
+$text-muted:     #7d8590;
+$accent:         #ff2d78;
+$accent-alt:     #ff6b9d;
+$font-stack:     system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
+// Colors for scores & severities
+$green:          #2ea043;
+$orange:         #f0883e;
+$red:            #f85149;
+$blue:           #58a6ff;
+
+.detail-page {
+    width: 100%;
+    min-height: 100vh;
+    background-color: $bg-page;
+    color: $text-primary;
+    font-family: $font-stack;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    box-sizing: border-box;
+
+    @media (max-width: 768px) {
+        padding: 1rem;
+    }
+}
+
+// ── Nav Header ───────────────────────────────────────────────────────────────
+.detail-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid $border-color;
+    padding-bottom: 1.25rem;
+
+    .btn-back-nav {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        background-color: transparent;
+        border: 1px solid $border-color;
+        border-radius: 0.5rem;
+        color: $text-primary;
+        padding: 0.5rem 1rem;
+        cursor: pointer;
+        font-size: 0.9rem;
+        font-weight: 500;
+        transition: all 0.2s ease;
+
+        svg {
+            transition: transform 0.2s ease;
+        }
+
+        &:hover {
+            background-color: $border-color;
+            svg {
+                transform: translateX(-3px);
+            }
+        }
+    }
+
+    .nav-title {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: $text-muted;
+        letter-spacing: 0.5px;
+    }
+}
+
+// ── Layout Grid ──────────────────────────────────────────────────────────────
+.detail-grid {
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    gap: 2rem;
+    align-items: start;
+
+    @media (max-width: 992px) {
+        grid-template-columns: 1fr;
+    }
+}
+
+// ── Left Panel Components ────────────────────────────────────────────────────
+.summary-card {
+    background-color: $bg-card;
+    border: 1px solid $border-color;
+    border-radius: 1rem;
+    padding: 1.75rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 1rem;
+
+    &__tag {
+        background-color: rgba($accent, 0.1);
+        border: 1px solid rgba($accent, 0.3);
+        color: $accent-alt;
+        font-size: 0.75rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        padding: 0.25rem 0.75rem;
+        border-radius: 2rem;
+    }
+
+    &__title {
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin: 0;
+        color: $text-primary;
+        line-height: 1.3;
+    }
+
+    &__date {
+        font-size: 0.8rem;
+        color: $text-muted;
+        margin: 0;
+    }
+}
+
+// Circular Score Meter
+.score-meter-container {
+    margin: 1rem 0;
+}
+
+.score-meter-ring {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px; // Thick border effect
+    background: conic-gradient($border-color 0%, $border-color 100%);
+    transition: transform 0.3s ease;
+
+    &:hover {
+        transform: scale(1.05);
+    }
+
+    &.score--high {
+        background: conic-gradient($green 80%, $border-color 20%);
+    }
+
+    &.score--mid {
+        background: conic-gradient($orange 60%, $border-color 40%);
+    }
+
+    &.score--low {
+        background: conic-gradient($red 30%, $border-color 70%);
+    }
+}
+
+.score-meter-inner {
+    width: 100%;
+    height: 100%;
+    background-color: $bg-card;
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.15rem;
+
+    .score-value {
+        font-size: 2rem;
+        font-weight: 800;
+        color: $text-primary;
+    }
+
+    .score-label {
+        font-size: 0.7rem;
+        text-transform: uppercase;
+        color: $text-muted;
+        letter-spacing: 0.5px;
+    }
+}
+
+.score-explanation {
+    font-size: 0.85rem;
+    line-height: 1.5;
+    text-align: left;
+    margin-top: 0.5rem;
+
+    .success-text { color: lighten($green, 15%); }
+    .warning-text { color: lighten($orange, 10%); }
+    .danger-text { color: lighten($red, 10%); }
+}
+
+// Skill Gaps Component
+.gaps-card {
+    background-color: $bg-card;
+    border: 1px solid $border-color;
+    border-radius: 1rem;
+    padding: 1.5rem;
+    margin-top: 1.5rem;
+
+    h2 {
+        font-size: 1.1rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+        border-bottom: 1px solid $border-color;
+        padding-bottom: 0.5rem;
+    }
+
+    .no-gaps-text {
+        font-size: 0.85rem;
+        color: $text-muted;
+        line-height: 1.4;
+    }
+
+    .gaps-list {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    .gap-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: $bg-panel;
+        padding: 0.5rem 0.75rem;
+        border-radius: 0.5rem;
+        border: 1px solid transparent;
+        transition: border-color 0.2s ease;
+
+        &:hover {
+            border-color: rgba($text-muted, 0.2);
+        }
+
+        .gap-name {
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .severity-badge {
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 0.15rem 0.5rem;
+            border-radius: 0.25rem;
+            text-transform: uppercase;
+
+            &.severity--high {
+                background-color: rgba($red, 0.15);
+                color: lighten($red, 10%);
+                border: 1px solid rgba($red, 0.3);
+            }
+
+            &.severity--medium {
+                background-color: rgba($orange, 0.15);
+                color: lighten($orange, 10%);
+                border: 1px solid rgba($orange, 0.3);
+            }
+
+            &.severity--low {
+                background-color: rgba($blue, 0.15);
+                color: lighten($blue, 10%);
+                border: 1px solid rgba($blue, 0.3);
+            }
+        }
+    }
+}
+
+// ── Right Panel Components ───────────────────────────────────────────────────
+.tabs-header {
+    display: flex;
+    background-color: $bg-card;
+    border: 1px solid $border-color;
+    border-radius: 0.75rem;
+    padding: 0.35rem;
+    gap: 0.25rem;
+    margin-bottom: 1.5rem;
+    overflow-x: auto;
+
+    .tab-btn {
+        flex: 1;
+        background-color: transparent;
+        border: none;
+        color: $text-muted;
+        padding: 0.75rem 1rem;
+        border-radius: 0.5rem;
+        font-size: 0.9rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        white-space: nowrap;
+
+        &:hover {
+            color: $text-primary;
+            background-color: rgba($bg-panel, 0.5);
+        }
+
+        &.active {
+            color: $text-primary;
+            background-color: $bg-panel;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+    }
+}
+
+// Questions Tab content
+.questions-tab-content {
+    animation: fadeIn 0.3s ease;
+}
+
+.empty-tab-text {
+    text-align: center;
+    color: $text-muted;
+    padding: 3rem;
+    font-size: 0.95rem;
+}
+
+.questions-accordion {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.accordion-item {
+    background-color: $bg-card;
+    border: 1px solid $border-color;
+    border-radius: 0.75rem;
+    overflow: hidden;
+    transition: all 0.2s ease;
+
+    &.open {
+        border-color: rgba($accent, 0.4);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+
+        .arrow-icon svg {
+            transform: rotate(180deg);
+        }
+    }
+
+    .accordion-toggle {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        background-color: transparent;
+        border: none;
+        color: $text-primary;
+        padding: 1.25rem;
+        text-align: left;
+        cursor: pointer;
+        font-size: 0.95rem;
+        font-weight: 600;
+
+        .q-number {
+            color: $accent-alt;
+            font-size: 0.85rem;
+            font-weight: 800;
+            background-color: rgba($accent, 0.1);
+            padding: 0.2rem 0.5rem;
+            border-radius: 0.25rem;
+        }
+
+        .q-text {
+            flex: 1;
+        }
+
+        .arrow-icon {
+            color: $text-muted;
+            display: flex;
+            align-items: center;
+            
+            svg {
+                transition: transform 0.2s ease;
+            }
+        }
+    }
+
+    .accordion-body {
+        border-top: 1px solid $border-color;
+        padding: 1.25rem;
+        background-color: rgba($bg-panel, 0.3);
+        display: flex;
+        flex-direction: column;
+        gap: 1.25rem;
+        animation: slideDown 0.25s ease;
+
+        .q-section {
+            h4 {
+                font-size: 0.85rem;
+                text-transform: uppercase;
+                color: $text-muted;
+                letter-spacing: 0.5px;
+                margin-bottom: 0.5rem;
+            }
+
+            p {
+                font-size: 0.9rem;
+                line-height: 1.6;
+                color: $text-primary;
+            }
+
+            .answer-text {
+                background-color: $bg-input;
+                border: 1px solid $border-color;
+                padding: 1rem;
+                border-radius: 0.5rem;
+                white-space: pre-line;
+            }
+        }
+    }
+}
+
+// ── Timeline Prep Plan ───────────────────────────────────────────────────────
+.plan-tab-content {
+    animation: fadeIn 0.3s ease;
+}
+
+.prep-timeline {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    padding-left: 1.5rem;
+
+    &::before {
+        content: "";
+        position: absolute;
+        left: 20px;
+        top: 10px;
+        bottom: 10px;
+        width: 2px;
+        background-color: $border-color;
+    }
+}
+
+.timeline-day {
+    display: flex;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+    position: relative;
+
+    &:last-child {
+        margin-bottom: 0;
+    }
+
+    .day-badge {
+        position: absolute;
+        left: -32px;
+        top: 0;
+        width: 32px;
+        height: 32px;
+        background-color: $accent;
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.7rem;
+        font-weight: 700;
+        border: 4px solid $bg-page;
+        box-shadow: 0 0 0 2px $border-color;
+        z-index: 1;
+        white-space: nowrap;
+        padding: 4px;
+        width: max-content;
+        height: auto;
+        border-radius: 0.5rem;
+        left: -48px;
+    }
+
+    .day-content {
+        flex: 1;
+        background-color: $bg-card;
+        border: 1px solid $border-color;
+        border-radius: 0.75rem;
+        padding: 1.25rem;
+
+        h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: $text-primary;
+        }
+    }
+}
+
+// Checkbox Tasks
+.tasks-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.task-checkbox-item {
+    font-size: 0.9rem;
+    line-height: 1.5;
+
+    .checkbox-container {
+        display: flex;
+        align-items: flex-start;
+        position: relative;
+        cursor: pointer;
+      
+        padding-left: 1.75rem;
+
+        input {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+            height: 0;
+            width: 0;
+
+            &:checked ~ .checkmark {
+                background-color: $green;
+                border-color: $green;
+                
+                &::after {
+                    display: block;
+                }
+            }
+
+            &:checked ~ .task-text {
+                color: $text-muted;
+                text-decoration: line-through;
+            }
+        }
+
+        .checkmark {
+            position: absolute;
+            top: 2px;
+            left: 0;
+            height: 16px;
+            width: 16px;
+            background-color: $bg-input;
+            border: 1px solid $border-color;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+
+            &::after {
+                content: "";
+                position: absolute;
+                display: none;
+                left: 5px;
+                top: 2px;
+                width: 4px;
+                height: 8px;
+                border: solid white;
+                border-width: 0 2px 2px 0;
+                transform: rotate(45deg);
+            }
+        }
+
+        .task-text {
+            color: $text-primary;
+            transition: all 0.2s ease;
+        }
+
+        &:hover input ~ .checkmark {
+            border-color: rgba($accent, 0.6);
+        }
+    }
+}
+
+// ── Input Summaries Section ──────────────────────────────────────────────────
+.input-summaries {
+    border-top: 1px solid $border-color;
+    padding-top: 2rem;
+    margin-top: 1rem;
+
+    h2 {
+        font-size: 1.25rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+        color: $text-muted;
+    }
+}
+
+.summaries-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+
+    @media (max-width: 768px) {
+        grid-template-columns: 1fr;
+    }
+}
+
+.summary-box {
+    background-color: $bg-card;
+    border: 1px solid $border-color;
+    border-radius: 0.75rem;
+    padding: 1.25rem;
+
+    h3 {
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        color: $text-muted;
+        margin-bottom: 0.75rem;
+        letter-spacing: 0.5px;
+    }
+
+    &__scroll {
+        max-height: 200px;
+        overflow-y: auto;
+        font-size: 0.85rem;
+        color: $text-muted;
+        line-height: 1.6;
+        white-space: pre-line;
+        padding-right: 0.5rem;
+
+        // Custom scrollbar
+        &::-webkit-scrollbar {
+            width: 6px;
+        }
+        &::-webkit-scrollbar-track {
+            background: $bg-card;
+        }
+        &::-webkit-scrollbar-thumb {
+            background: $border-color;
+            border-radius: 3px;
+        }
+    }
+}
+
+// ── Screen Animations & Global Loading/Error ────────────────────────────────
+.loading-screen, .error-screen {
+    width: 100%;
+    min-height: 100vh;
+    background-color: $bg-page;
+    color: $text-primary;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 1rem;
+    padding: 2rem;
+    box-sizing: border-box;
+
+    h1 {
+        font-size: 1.8rem;
+        font-weight: 700;
+        margin: 0;
+    }
+
+    p {
+        color: $text-muted;
+        font-size: 0.95rem;
+    }
+}
+
+.spinner {
+    width: 48px;
+    height: 48px;
+    border: 4px solid rgba($accent, 0.15);
+    border-left-color: $accent;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+.error-card {
+    background-color: $bg-card;
+    border: 1px solid $border-color;
+    padding: 2.5rem;
+    border-radius: 1rem;
+    max-width: 420px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.25rem;
+
+    h2 {
+        font-size: 1.35rem;
+        font-weight: 700;
+        color: $red;
+        margin: 0;
+    }
+
+    p {
+        font-size: 0.9rem;
+        line-height: 1.5;
+        color: $text-muted;
+        margin: 0;
+    }
+
+    .btn-back {
+        background-color: $accent;
+        color: white;
+        border: none;
+        border-radius: 0.5rem;
+        padding: 0.75rem 1.5rem;
+        font-size: 0.9rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background-color 0.2s ease;
+
+        &:hover {
+            background-color: darken($accent, 10%);
+        }
+    }
+}
+
+// Animations definitions
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(4px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideDown {
+    from { height: 0; opacity: 0; }
+    to { height: auto; opacity: 1; }
+}
